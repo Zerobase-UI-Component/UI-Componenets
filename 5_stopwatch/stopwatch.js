@@ -1,5 +1,13 @@
 // Model
-const laps = [{ id: 1, time: '00:00:00' }];
+let laps = [];
+let timerId;
+
+// Model Controllers
+const addLaps = time => laps.push({ id: laps.length + 1, time });
+
+const resetLaps = () => {
+  laps = [];
+};
 
 // DOMs
 const $stopWatch = document.querySelector('.stopwatch');
@@ -17,43 +25,51 @@ const timer = (() => {
     const milliSecond = Math.floor(time);
 
     const fixDigitMinute = minute => {
-      return minute < 10 ? '0' + minute : minute;
+      return minute < 10 ? '0' + minute : minute + '';
     };
     const fixDigitSecond = second => {
       if (second < 10) return '0' + second;
-      if (second < 60) return second;
+      if (second < 60) return second + '';
       const secondMod = second % 60;
-      return secondMod < 10 ? '0' + secondMod : secondMod;
+      return secondMod < 10 ? '0' + secondMod : secondMod + '';
     };
     const fixDigitMilliSecond = milliSecond => {
       if (milliSecond < 10) return '0' + milliSecond;
-      if (milliSecond < 100) return milliSecond;
+      if (milliSecond < 100) return milliSecond + '';
       const milliSecondMod = milliSecond % 100;
-      return milliSecondMod < 10 ? '0' + milliSecondMod : milliSecondMod;
+      return milliSecondMod < 10 ? '0' + milliSecondMod : milliSecondMod + '';
     };
-
-    return [fixDigitMinute(minute), fixDigitSecond(second), fixDigitMilliSecond(milliSecond)];
+    return {
+      getTime() {
+        // return [fixDigitMinute(minute), fixDigitSecond(second), fixDigitMilliSecond(milliSecond)];
+        return `${fixDigitMinute(minute)}:${fixDigitSecond(second)}:${fixDigitMilliSecond(milliSecond)}`;
+      },
+      resetTime() {
+        time = 0;
+        return '00:00:00';
+      },
+    };
   };
 })();
 
-const renderTimer = (minute, second, milliSecond) => {
-  $display.textContent = `${minute}:${second}:${milliSecond}`;
+const renderTimer = time => {
+  $display.textContent = time;
 };
 
 const captureLap = (() => {})();
 
 const renderLaps = laps => {
-  laps.forEach(lap => {});
+  $laps.innerHTML = ""
+  const $fragment = document.createDocumentFragment();
+  laps.forEach(({ id, time }) => {
+    const $id = document.createElement('div');
+    const $time = document.createElement('div');
 
-  $id = document.createElement('div');
-  $time = document.createElement('div');
+    $id.textContent = id;
+    $time.textContent = time;
 
-  $id.textContent = ++id;
-  $time.textContent(`${minute}:${second}:${milliSecond}`);
-  $fragment = document.createDocumentFragment();
-
-  $fragment.append($id, $time);
-
+    $fragment.append($id, $time);
+  });
   $laps.append($fragment);
 };
 
@@ -83,20 +99,29 @@ $stopWatch.addEventListener('click', e => {
     toggleStart(e.target);
     toggleLap(e.target.nextElementSibling);
     enableReset(e.target.nextElementSibling);
-    setInterval(() => {
-      renderTimer(...timer());
+    timerId = setInterval(() => {
+      renderTimer(timer().getTime());
     }, 10);
-  } else if (text === 'Stop') {
+  }
+  if (text === 'Stop') {
     toggleStart(e.target);
     toggleLap(e.target.nextElementSibling);
-  } else if (text === 'Reset') {
+    clearInterval(timerId);
+  }
+  if (text === 'Reset') {
     // 스탑워치 초기화
-    $display.textContent = '00:00:00';
+    // $display.textContent = '00:00:00';
     // Reset 버튼 비활성
     disableReset(e.target);
+    $display.textContent = timer().resetTime();
+    resetLaps();
+    renderLaps(laps)
+
     // laps record 삭제
   } else if (text === 'Lap') {
     // laps 렌더링
-    renderLaps();
+    // renderLaps();
+    addLaps(timer().getTime());
+    renderLaps(laps);
   }
 });
