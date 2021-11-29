@@ -23,12 +23,40 @@
         text-align: center;
       }
       /* 팝업을 위한 CSS */
+      .popup {
+        max-width: 520px;
+        min-height: 200px;
+        background-color: yellow;
+        padding: 30px;
+        border-radius: 10px;
+      }
+      .close-btn {
+        float: right;
+        border: none;
+        background: none;
+      }
     </style>
+    <script defer src="./popup.js"></script>
   </head>
   <body>
     <h1 class="title">Popup</h1>
 
     <!-- 팝업을 위한 HTML -->
+    <button class="toggle-popup">toggle popup</button>
+    <div class="popup">
+      <form>
+        <button class="close-btn">X</button>
+        <h1 class="title">Hello!</h1>
+        <article>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laborum optio ab porro magni in sunt ipsam,
+          doloremque minima, itaque sapiente consequatur, repellat velit voluptatum accusantium aperiam. Nostrum sunt
+          reprehenderit nemo!
+        </article>
+        <input type="text" />
+        <button>OK</button>
+        <button>Cancel</button>
+      </form>
+    </div>
 
     <p class="popup-message"></p>
   </body>
