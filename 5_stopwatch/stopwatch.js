@@ -40,15 +40,11 @@ const renderTimer = (minute, second, milliSecond) => {
   $display.textContent = `${minute}:${second}:${milliSecond}`;
 };
 
-const captureLap = (() => {
-  let id = 0;
+const captureLap = (() => {})();
 
-  return (minute, second, milliSecond) => {
-    laps.push({ id: id, time: `${minute}:${second}:${milliSecond}` });
-  };
-})();
+const renderLaps = laps => {
+  laps.forEach(lap => {});
 
-const renderLaps = id => {
   $id = document.createElement('div');
   $time = document.createElement('div');
 
