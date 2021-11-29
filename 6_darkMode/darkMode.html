@@ -76,8 +76,18 @@
         color: #fff;
       }
     </style>
+    <script defer src="./darkMode.js"></script>
   </head>
-  <body>
+  <body class=>
+    <script>
+      const $body = document.querySelector('body');
+
+      if (localStorage.getItem('isDark')) {
+        $body.classList.add('dark');
+      } else {
+        $body.classList.remove('dark');
+      }
+    </script>
     <h1 class="title">Dark Mode</h1>
     <div class="toggle-button">
       <div class="toggle-button-switch"></div>
@@ -87,8 +97,9 @@
       </div>
     </div>
     <article>
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laborum optio ab porro magni in sunt ipsam, doloremque minima,
-      itaque sapiente consequatur, repellat velit voluptatum accusantium aperiam. Nostrum sunt reprehenderit nemo!
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laborum optio ab porro magni in sunt ipsam, doloremque
+      minima, itaque sapiente consequatur, repellat velit voluptatum accusantium aperiam. Nostrum sunt reprehenderit
+      nemo!
     </article>
   </body>
 </html>
