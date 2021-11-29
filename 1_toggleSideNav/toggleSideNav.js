@@ -3,13 +3,12 @@ const $toggleBtn = document.querySelector('.toggle');
 const $nav = document.querySelector('nav');
 
 // Event handlers
-const toggleClassName = () => {
-  console.log($nav.classList);
-  const isActive = [...$nav.classList].includes('active');
+const toggleClassName = className => {
+  const isActive = [...$nav.classList].includes(className);
   if (isActive) {
-    $nav.classList.remove('active');
+    $nav.classList.remove(className);
   } else {
-    $nav.classList.add('active');
+    $nav.classList.add(className);
   }
 };
 
