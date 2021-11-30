@@ -33,26 +33,33 @@ const getTaps = async () => {
       (acc, cur, index) => acc + `<div class="tab" data-index=${index}>${cur.title}</div>`,
       ''
     );
-    const tabContent = tabs.reduce((acc, cur) => acc + `<div class="tab-content">${cur.content}</div>`, '');
+    const tabContent = tabs.reduce(
+      (acc, cur, index) => acc + `<div class="tab-content ${index === 0 ? 'active' : ''}">${cur.content}</div>`,
+      ''
+    );
     const nav = `<nav>${tabTitle}<span class="glider"></span></nav>${tabContent}`;
+
     $tabs.innerHTML = nav;
   } catch (error) {
     console.log(error);
   }
 };
 
-// const initContent = () => {
-//     const filterTabContent = [...$tabs.children].filter(tab =>
-//         tab.classList.contains('tab-content')
-//      );
-//      console.log(filterTabContent[0])
-// }
 $tabs.addEventListener('click', ({ target }) => {
   if (!target.matches('nav > div')) return;
-  const targetIdx = +target.dataset.index
-  const targetContent = [...$tabs.children].filter(tab => tab.classList.contains('tab-content'))[targetIdx]
-  targetContent.classList.add("active")  
- 
+  const TAB_WIDTH = 200;
+
+  const $glider = document.querySelector('.glider');
+  const $tabContents = [...$tabs.children].filter(tab => tab.classList.contains('tab-content'));
+
+  const targetIdx = +target.dataset.index;
+  const targetContent = $tabContents[targetIdx];
+  // glider 추가
+  $glider.style.setProperty('transform', `translate3D(${TAB_WIDTH * targetIdx}px, 0px, 0px)`);
+
+  targetContent.classList.add('active');
+  const $restContents = $tabContents.filter((_, i) => i !== targetIdx);
+  $restContents.forEach($content => $content.classList.remove('active'));
 });
 
 window.addEventListener('DOMContentLoaded', getTaps);
