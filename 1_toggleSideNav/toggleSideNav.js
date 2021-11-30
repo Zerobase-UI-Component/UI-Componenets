@@ -3,14 +3,16 @@ const $toggleBtn = document.querySelector('.toggle');
 const $nav = document.querySelector('nav');
 
 // Event handlers
-const toggleClassName = className => {
-  const isActive = [...$nav.classList].includes(className);
+const toggleClassName = ($Element, className) => {
+  const isActive = [...$Element.classList].includes(className);
   if (isActive) {
-    $nav.classList.remove(className);
+    $Element.classList.remove(className);
   } else {
-    $nav.classList.add(className);
+    $Element.classList.add(className);
   }
 };
 
 // Event Handlers 등록
-$toggleBtn.addEventListener('click', toggleClassName);
+$toggleBtn.addEventListener('click', () => {
+  toggleClassName($nav, 'active');
+});

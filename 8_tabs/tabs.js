@@ -47,7 +47,7 @@ const getTaps = async () => {
 
 $tabs.addEventListener('click', ({ target }) => {
   if (!target.matches('nav > div')) return;
-  const TAB_WIDTH = 200;
+  const TAB_WIDTH = window.getComputedStyle($tabs).getPropertyValue('--tab-width');
 
   const $glider = document.querySelector('.glider');
   const $tabContents = [...$tabs.children].filter(tab => tab.classList.contains('tab-content'));
