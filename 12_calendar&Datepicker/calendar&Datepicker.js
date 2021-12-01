@@ -1,0 +1,1 @@
+// const CALENDAR_SIZE = window.

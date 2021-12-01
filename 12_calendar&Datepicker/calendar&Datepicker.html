@@ -22,14 +22,127 @@
         font-weight: 300;
         text-align: center;
       }
+      .calendar {
+        --calendar-size: 300;
+        width: calc(var(--calendar-size) * 1px);
+        height: calc(var(--calendar-size) * 1.1px);
+        font-size: calc(var(--calendar-size) * 0.05px);
+        border-radius: 10px;
+        box-shadow: 5px 5px 5px #808080, -5px 5px 5px #808080, -5px -5px 5px #808080, 5px -5px 5px #808080;
+      }
+      .nav-month > h4,
+      .nav-month > h5 {
+        margin: 0px;
+      }
+      .calender-nav {
+        display: flex;
+        height: calc(var(--calendar-size) * 0.2px);
+        vertical-align: center;
+        background-color: #44c379;
+        color: #ffffff;
+      }
+      .prev-btn {
+        flex-grow: 1;
+        border: none;
+        background: transparent;
+        color: inherit;
+      }
+      .nav-month {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-grow: 8;
+        text-align: center;
+      }
+      .next-btn {
+        flex-grow: 1;
+        border: none;
+        background: transparent;
+        color: inherit;
+      }
+      .calendar-grid {
+        height: calc(var(--calendar-size) * 0.9px);
+        display: grid;
+        vertical-align: middle;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(7, 1fr);
+        text-align: center;
+        color: #808080;
+        line-height: calc(var(--calendar-size) * 0.9px/7);
+      }
 
       /* 뷰를 구현하세요. */
     </style>
+    <script defer src="./calendar&Datepicker.js"></script>
   </head>
   <body>
     <h1 class="title">Calendar</h1>
+    <input type="date" /> <br />
+
+    <!-- 뷰를 구현하세요 -->
+
+    <input type="text" placeholder="Select date" readonly />
     <div class="calendar">
-      <!-- 뷰를 구현하세요 -->
+      <div class="calender-nav">
+        <button class="prev-btn"><</button>
+        <div class="nav-month">
+          <h4>January</h4>
+          <h5>2021</h5>
+        </div>
+        <button class="next-btn">></button>
+      </div>
+      <div class="calendar-grid">
+        <span class="days">SUN</span>
+        <div class="days">MON</div>
+        <div class="days">TUE</div>
+        <div class="days">WED</div>
+        <div class="days">THU</div>
+        <div class="days">FRI</div>
+        <div class="days">SAT</div>
+
+        <div class="date">1</div>
+        <div class="date">2</div>
+        <div class="date">3</div>
+        <div class="date">4</div>
+        <div class="date">5</div>
+        <div class="date">6</div>
+        <div class="date">7</div>
+        <div class="date">1</div>
+        <div class="date">2</div>
+        <div class="date">3</div>
+        <div class="date">4</div>
+        <div class="date">5</div>
+        <div class="date">6</div>
+        <div class="date">7</div>
+        <div class="date">1</div>
+        <div class="date">2</div>
+        <div class="date">3</div>
+        <div class="date">4</div>
+        <div class="date">5</div>
+        <div class="date">6</div>
+        <div class="date">7</div>
+        <div class="date">1</div>
+        <div class="date">2</div>
+        <div class="date">3</div>
+        <div class="date">4</div>
+        <div class="date">5</div>
+        <div class="date">6</div>
+        <div class="date">7</div>
+        <div class="date">1</div>
+        <div class="date">2</div>
+        <div class="date">3</div>
+        <div class="date">4</div>
+        <div class="date">5</div>
+        <div class="date">6</div>
+        <div class="date">7</div>
+        <div class="date">1</div>
+        <div class="date">2</div>
+        <div class="date">3</div>
+        <div class="date">4</div>
+        <div class="date">5</div>
+        <div class="date">6</div>
+        <div class="date">7</div>
+      </div>
     </div>
   </body>
 </html>
