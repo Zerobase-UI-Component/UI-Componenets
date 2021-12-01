@@ -1,5 +1,5 @@
 // 당월이 며칠까지 인지
-const getLastDateOfCurrMonth = (year, month) => new Date(year, month + 1, 0).getDate();
+const getLastDateOfMonth = (year, month) => new Date(year, month + 1, 0).getDate();
 
 // 당월 시작이 무슨 요일인지
 const getFirstDayofCurrMonth = (year, month) => new Date(year, month, 1).getDay();
@@ -24,15 +24,16 @@ const todayMonth = today.getMonth(); // 1 더하지 않은 값
 const todayDate = today.getDate();
 const todayDay = today.getDay();
 const todayFirstDay = getFirstDayofCurrMonth(todayYear, todayMonth);
-const todayLastDate = getLastDateOfCurrMonth(todayYear, todayMonth);
+const todayLastDate = getLastDateOfMonth(todayYear, todayMonth);
 
 // picked date
+
 let year = today.getFullYear();
 let month = today.getMonth(); // 1 더하지 않은 값
 let date = today.getDate();
 let day = today.getDay();
 let firstDay = getFirstDayofCurrMonth(year, month);
-let lastDate = getLastDateOfCurrMonth(year, month);
+let lastDate = getLastDateOfMonth(year, month);
 
 // DOMs
 const $datePicker = document.querySelector('.date-picker');
@@ -54,6 +55,18 @@ const render = (year, month, day, lastDate) => {
 
   $navYear.textContent = year;
   $navMonth.textContent = monthToString(month);
+  const prevMonth = [...$dateGrids].slice(0, day);
+  const lastDateOfPrevMonth = getLastDateOfMonth(year, month - 1);
+  const prevMonthLen = prevMonth.length;
+  prevMonth.forEach((date, i) => {
+    date.textContent = lastDateOfPrevMonth - (prevMonthLen - 1 - i);
+  });
+
+  const nextMonth = [...$dateGrids].slice(day + lastDate);
+  nextMonth.forEach((date, i) => {
+    date.textContent = i + 1;
+  });
+  console.log(prevMonth);
 };
 
 // Constants
@@ -72,3 +85,11 @@ document.querySelector('body').addEventListener('click', e => {
 document.addEventListener('DOMContentLoaded', () => {
   render(year, month, day, lastDate);
 });
+
+document.querySelector('.prev-btn').addEventListener('click', () => {
+//   month -= 1
+//   new Date(year, month, date)
+  render(year, month, day, lastDate);
+});
+
+document.querySelector('.next-btn').addEventListener('click', () => {});
