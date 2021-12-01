@@ -6,58 +6,43 @@ const toaster = {
     this.render();
     setTimeout(() => {
       this.remove();
-    }, 10000);
+    }, 3000);
   },
   remove() {
     this.toasts.shift();
-    const $container = document.querySelector('.container');
-    $container.children[0].remove();
+    const $toast = document.querySelector('.toast');
+    if (!$toast) return;
+    $toast.remove();
   },
   render() {
     const { type, title, message } = this.toasts[this.toasts.length - 1];
 
-    const $container = document.createElement('div');
+    const $toast = document.createElement('div');
+    $toast.classList.add('toast', `toast-${type}`);
 
-    // $fragment.innerHTML = this.toasts.reduce(
-    //   (acc, { type, title, message }) =>
-    //     acc +
-    //     `<div class="toast toast-${type}">
-    //     <h4 class="toast-heading">${title}</h4>
-    //     <div class="toast-message">
-    //         <svg width="24" height="24">
-    //         <use xlink:href="#${type}" />
-    //         </svg>
-    //         <p>${message}</p>
-    //         </div>
-    //         <a class="close">&times;</a>
-    //         </div>`,
-    //   ''
-    // );
+    $toast.innerHTML = `<h4 class="toast-heading">${title}</h4>
+    <div class="toast-message">
+    <svg width="24" height="24">
+    <use xlink:href="#${type}" />
+    </svg>
+    <p>${message}</p>
+    </div>
+    <a class="close">&times;</a>`;
 
-    $container.innerHTML = `<div class="toast toast-${type}">
-    //     <h4 class="toast-heading">${title}</h4>
-    //     <div class="toast-message">
-    //         <svg width="24" height="24">
-    //         <use xlink:href="#${type}" />
-    //         </svg>
-    //         <p>${message}</p>
-    //         </div>
-    //         <a class="close">&times;</a>
-    //         </div>`;
-
-    document.querySelector('body').appendChild($container);
-    console.log(document.querySelector('body'));
+    document.querySelector('body').appendChild($toast);
+    $toast.style.bottom = `0px`;
   },
   moveup() {
-    const TOAST_HEIGHT = 100;
     const $toasts = document.querySelectorAll('.toast');
-    if (!$toasts) return;
+    if (!$toasts.length) return;
+    const TOAST_HEIGHT = +window.getComputedStyle($toasts[0]).getPropertyValue('--toast-height').replace(/px/, '');
     $toasts.forEach(toast => {
-      console.log(toast.style.bottom);
       toast.style.bottom = `${+toast.style.bottom.replace(/px/, '') + TOAST_HEIGHT}px`;
-      // toast.style.bottom = `500px`;
-      console.log('moveup', toast, +toast.style.bottom.replace(/px/, ''));
     });
+  },
+  close(e) {
+    e.preventDefault();
+    e.target.parentNode.remove();
   },
 };
 
@@ -77,3 +62,8 @@ document.querySelector('.show-error').onclick = () =>
 
 document.querySelector('.show-warning').onclick = () =>
   toaster.add(createToastAction(TOAST_TYPE.WARNING, 'Check it out!', 'This is a warning alert'));
+
+document.querySelector('body').onclick = e => {
+  if (!e.target.matches('.close')) return;
+  toaster.close(e);
+};
