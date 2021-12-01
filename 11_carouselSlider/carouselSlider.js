@@ -1,4 +1,6 @@
 let currentSlide = 0;
+const DURATION = 500;
+let isEnd = false;
 
 const carousel = ($container, images) => {
   const imgElem =
@@ -16,30 +18,38 @@ const carousel = ($container, images) => {
 
   // window 에 슬라이드 옮기기
   const render = () => {
-    console.log(IMG_WIDTH);
-
     $container.style.width = IMG_WIDTH + padding + 'px';
     $container.style.opacity = 1;
 
     // currentSlide 가져와서 재할당
-    currentSlide = +window
-      .getComputedStyle(document.querySelector('.carousel-slides'))
-      .getPropertyValue('--currentSlide');
+    currentSlide = +window.getComputedStyle($containerSlides).getPropertyValue('--currentSlide');
 
-    document
-      .querySelector('.carousel-slides')
-      .style.setProperty('--currentSlide', currentSlide > images.length + 1 ? 0 : currentSlide);
+    $containerSlides.style.setProperty('--currentSlide', currentSlide > images.length + 1 ? 0 : currentSlide);
   };
 
+  const move = (currentSlide, duration = 0) => {
+    $containerSlides.style.setProperty('--duration', duration);
+    $containerSlides.style.setProperty('--currentSlide', currentSlide);
+  };
   const prev = () => {
-    currentSlide = currentSlide < 1 ? images.length - 1 : currentSlide - 1;
-
-    document.querySelector('.carousel-slides').style.setProperty('--currentSlide', currentSlide);
+    if (currentSlide === 0) {
+      currentSlide = images.length;
+      move(currentSlide);
+    }
+    setTimeout(() => {
+      currentSlide -= 1;
+      move(currentSlide, DURATION);
+    }, 1);
   };
   const next = () => {
-    currentSlide = currentSlide > images.length - 2 ? 0 : currentSlide + 1;
-
-    document.querySelector('.carousel-slides').style.setProperty('--currentSlide', currentSlide);
+    if (currentSlide === images.length + 1) {
+      currentSlide = 1;
+      move(currentSlide);
+    }
+    setTimeout(() => {
+      currentSlide += 1;
+      move(currentSlide, DURATION);
+    }, 1);
   };
 
   const $prevBtn = document.querySelector('.prev');
