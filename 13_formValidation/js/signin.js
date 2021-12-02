@@ -54,8 +54,8 @@ $signinForm.addEventListener('input', e => {
     : $signinBtn.toggleAttribute('disabled', true);
 });
 
-document.addEventListener('click', ({target}) => {
-  if(!target.matches('a')) return
-  document.querySelector('.form.signin').classList.toggle('hidden')
-  document.querySelector('.form.signup').classList.toggle('hidden')
-})
+document.addEventListener('click', ({ target }) => {
+  if (!target.parentNode.matches('.link')) return;
+  document.querySelector('.form.signin').classList.toggle('hidden');
+  document.querySelector('.form.signup').classList.toggle('hidden');
+});

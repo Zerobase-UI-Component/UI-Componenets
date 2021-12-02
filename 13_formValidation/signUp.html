@@ -14,6 +14,7 @@
     <script type="module" defer src="./js/signup.js"></script>
     <script type="module" defer src="./js/signin.js"></script>
     <script type="module" defer src="./js/toaster.js"></script>
+    <script type="module" async src="./js/utils.js"></script>
   </head>
   <body>
     <form class="form signin" novalidate>
@@ -34,11 +35,11 @@
         <i class="icon icon-error bx bxs-x-circle hidden"></i>
         <div class="error"></div>
       </div>
-      <button class="signin button hidden" disabled>SIGN IN</button>
+      <button class="signin button" disabled>SIGN IN</button>
       <div class="link">Not a member? <a href="javascript:void(0);">Sign up now</a></div>
     </form>
 
-    <form class="form signup" novalidate>
+    <form class="form signup hidden" novalidate>
       <div class="title">SIGN UP</div>
       <div class="input-container">
         <input type="text" id="signup-userid" name="userid" required autocomplete="off" />

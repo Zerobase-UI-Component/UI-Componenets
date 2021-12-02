@@ -58,6 +58,10 @@ document.querySelector('.form.signin').onsubmit = e => {
   e.preventDefault();
   toaster.add(createToastAction(TOAST_TYPE.SUCCESS, 'Well done!', 'Signin Successfully'));
 };
+document.querySelector('.form.signup').onsubmit = e => {
+  e.preventDefault();
+  toaster.add(createToastAction(TOAST_TYPE.SUCCESS, 'Well done!', 'Signup Successfully'));
+};
 document.querySelector('body').onclick = e => {
   if (!e.target.matches('.close')) return;
   toaster.close(e);
