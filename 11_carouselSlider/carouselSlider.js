@@ -21,9 +21,7 @@ const carousel = ($container, images) => {
     $container.style.width = IMG_WIDTH + padding + 'px';
     $container.style.opacity = 1;
 
-    // currentSlide 가져와서 재할당
     currentSlide = +window.getComputedStyle($containerSlides).getPropertyValue('--currentSlide');
-
     $containerSlides.style.setProperty('--currentSlide', currentSlide > images.length + 1 ? 0 : currentSlide);
   };
 
@@ -35,30 +33,45 @@ const carousel = ($container, images) => {
     if (currentSlide === 0) {
       currentSlide = images.length;
       move(currentSlide);
-
     }
-    // setTimeout(() => {
-      currentSlide -= 1;
-      move(currentSlide, DURATION);
-    // }, 1);
-
+    currentSlide -= 1;
+    move(currentSlide, DURATION);
   };
   const next = () => {
-    if (currentSlide === images.length + 1) {
-      currentSlide = 1;
-      move(currentSlide);
-    }
-    setTimeout(() => {
-      currentSlide += 1;
-      move(currentSlide, DURATION);
-    }, 1);
+    currentSlide += 1;
+    move(currentSlide, DURATION);
   };
 
   const $prevBtn = document.querySelector('.prev');
   const $nextBtn = document.querySelector('.next');
 
-  $prevBtn.addEventListener('click', prev);
-  $nextBtn.addEventListener('click', next);
+  $prevBtn.addEventListener('click', function prevClick() {
+    prev();
+    $prevBtn.removeEventListener('click', prevClick);
+  });
+  $nextBtn.addEventListener('click', function nextClick() {
+    next();
+    $nextBtn.removeEventListener('click', nextClick);
+  });
+
+  document.querySelector('.carousel-slides').addEventListener('transitionend', () => {
+    if (currentSlide <= 0) {
+      currentSlide = images.length;
+    }
+    if (currentSlide >= images.length + 1) {
+      currentSlide = 1;
+    }
+    move(currentSlide);
+
+    $prevBtn.addEventListener('click', function prevClick() {
+      prev();
+      $prevBtn.removeEventListener('click', prevClick);
+    });
+    $nextBtn.addEventListener('click', function nextClick() {
+      next();
+      $nextBtn.removeEventListener('click', nextClick);
+    });
+  });
 
   render();
 };
