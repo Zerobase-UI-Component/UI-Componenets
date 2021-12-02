@@ -1,9 +1,4 @@
-const $increaseBtn = document.querySelector('.increase');
-const $decreaseBtn = document.querySelector('.decrease');
 const $counter = document.querySelector('.counter');
-
-const increase = () => ($counter.textContent = counter.increaseNum());
-const decrease = () => ($counter.textContent = counter.decreaseNum());
 
 const counter = (function () {
   let num = 0;
@@ -19,5 +14,9 @@ const counter = (function () {
   };
 })();
 
-$increaseBtn.addEventListener('click', increase);
-$decreaseBtn.addEventListener('click', decrease);
+document.querySelector('.increase').addEventListener('click', () => {
+  $counter.textContent = counter.increaseNum();
+});
+document.querySelector('.decrease').addEventListener('click', () => {
+  $counter.textContent = counter.decreaseNum();
+});
