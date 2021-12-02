@@ -1,6 +1,7 @@
-import { isValid, setInputs } from './utils.js';
-// Model
+import { isValid, setInputs, toggleIcon, ERROR_CONTENTS } from './utils.js';
+
 const inputs = [];
+
 // DOMs
 const $signupForm = document.querySelector('.form.signup');
 const $iconSuccess = document.querySelectorAll('.icon-success');
@@ -18,10 +19,11 @@ $signupForm.addEventListener('input', () => {
   const [, , idError, nameError, pwError, confirmError] = $iconError;
   const [, , $idMsg, $nameMsg, $pwMsg, $confirmMsg] = $errorMsg;
 
-  setInputs(email, isValid('email', email), idSuccess, idError, $idMsg, ERROR_CONTENTS.EMAIL);
-  setInputs(username, isValid('username', username), nameSuccess, nameError, $nameMsg, ERROR_CONTENTS.USERNAME);
-  setInputs(password, isValid('password', password), pwSuccess, pwError, $pwMsg, ERROR_CONTENTS.PASSWORD);
+  setInputs(inputs, email, isValid('email', email), idSuccess, idError, $idMsg, ERROR_CONTENTS.EMAIL);
+  setInputs(inputs, username, isValid('username', username), nameSuccess, nameError, $nameMsg, ERROR_CONTENTS.USERNAME);
+  setInputs(inputs, password, isValid('password', password), pwSuccess, pwError, $pwMsg, ERROR_CONTENTS.PASSWORD);
   setInputs(
+    inputs,
     confirmPassword,
     isValid('confirmPassword', confirmPassword, password),
     confirmSuccess,
@@ -29,11 +31,6 @@ $signupForm.addEventListener('input', () => {
     $confirmMsg,
     ERROR_CONTENTS.CONFIRM_PASSWORD
   );
-
-  const toggleIcon = (addIcon, removeIcon) => {
-    addIcon && addIcon.classList.add('hidden');
-    removeIcon && removeIcon.classList.remove('hidden');
-  };
 
   inputs.forEach(({ value, isValid, success, error, $errorMsg, errorContent }) => {
     if (value) {
