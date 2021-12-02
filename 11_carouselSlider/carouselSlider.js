@@ -35,11 +35,13 @@ const carousel = ($container, images) => {
     if (currentSlide === 0) {
       currentSlide = images.length;
       move(currentSlide);
+
     }
-    setTimeout(() => {
+    // setTimeout(() => {
       currentSlide -= 1;
       move(currentSlide, DURATION);
-    }, 1);
+    // }, 1);
+
   };
   const next = () => {
     if (currentSlide === images.length + 1) {

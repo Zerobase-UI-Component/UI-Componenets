@@ -1,16 +1,19 @@
-const $signinForm = document.querySelector('.form.signin');
+const $signupForm = document.querySelector('.form.signup');
 const $iconSuccess = document.querySelectorAll('.icon-success');
 const $iconError = document.querySelectorAll('.icon-error');
-const $signinBtn = document.querySelector('.signin.button');
+const $signupBtn = document.querySelector('.signup.button');
 const $errorMsg = document.querySelectorAll('.error');
-const $link = document.querySelectorAll('.link');
 
-$signinForm.addEventListener('input', e => {
-  const email = $signinForm.userid.value;
-  const password = $signinForm.password.value;
+$signupForm.addEventListener('input', () => {
+  const email = $signupForm.userid.value;
+  const password = $signupForm.password.value;
+  const username = $signupForm.username.value;
+  const confirmPassword = $signupForm["confirm-password"].value;
+
 
   const regExpEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
   const regExpPw = /[\w]{6,12}/;
+  const regUsername = /[/w]/
 
   const isEmail = regExpEmail.test(email);
   const isPassword = regExpPw.test(password);
@@ -50,12 +53,7 @@ $signinForm.addEventListener('input', e => {
   });
 
   inputs.every(({ isValid }) => isValid)
-    ? $signinBtn.toggleAttribute('disabled', false)
-    : $signinBtn.toggleAttribute('disabled', true);
+    ? $signupBtn.toggleAttribute('disabled', false)
+    : $signupBtn.toggleAttribute('disabled', true);
 });
 
-document.addEventListener('click', ({target}) => {
-  if(!target.matches('a')) return
-  document.querySelector('.form.signin').classList.toggle('hidden')
-  document.querySelector('.form.signup').classList.toggle('hidden')
-})
