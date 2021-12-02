@@ -49,13 +49,12 @@ $tabs.addEventListener('click', ({ target }) => {
   if (!target.matches('nav > div')) return;
   const TAB_WIDTH = window.getComputedStyle($tabs).getPropertyValue('--tab-width');
 
-  const $glider = document.querySelector('.glider');
   const $tabContents = [...$tabs.children].filter(tab => tab.classList.contains('tab-content'));
 
   const targetIdx = +target.dataset.index;
   const targetContent = $tabContents[targetIdx];
   // glider 추가
-  $glider.style.setProperty('transform', `translate3D(${TAB_WIDTH * targetIdx}px, 0px, 0px)`);
+  document.querySelector('.glider').style.setProperty('transform', `translate3D(${TAB_WIDTH * targetIdx}px, 0px, 0px)`);
 
   targetContent.classList.add('active');
   const $restContents = $tabContents.filter((_, i) => i !== targetIdx);
