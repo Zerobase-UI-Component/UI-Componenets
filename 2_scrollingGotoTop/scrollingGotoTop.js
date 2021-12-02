@@ -16,19 +16,13 @@ const throttle = (callback, delay) => {
   };
 };
 
-const goToTop = () => {
-  window.scrollTo(0, 0);
-};
-
 window.addEventListener(
   'scroll',
   throttle(() => {
-    if (window.pageYOffset < 100) {
-      $scrollIcon.style.display = 'none';
-    } else if (window.pageYOffset >= 100) {
-      $scrollIcon.style.display = 'block';
-    }
+    $scrollIcon.style.display = window.pageYOffset < 100 ? 'none' : 'block';
   }, 100)
 );
 
-$scrollIcon.addEventListener('click', goToTop);
+$scrollIcon.addEventListener('click', () => {
+  window.scrollTo(0, 0);
+});
