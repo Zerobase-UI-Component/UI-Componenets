@@ -75,18 +75,17 @@
       body.dark article {
         color: #fff;
       }
+
+      body.preload {
+        transition: none !important;
+      }
     </style>
     <script defer src="./darkMode.js"></script>
   </head>
-  <body class=>
+  <body>
     <script>
       const $body = document.querySelector('body');
-
-      if (localStorage.getItem('isDark')) {
-        $body.classList.add('dark');
-      } else {
-        $body.classList.remove('dark');
-      }
+      localStorage.getItem('isDark') ? $body.classList.add('dark') : $body.classList.remove('dark');
     </script>
     <h1 class="title">Dark Mode</h1>
     <div class="toggle-button">

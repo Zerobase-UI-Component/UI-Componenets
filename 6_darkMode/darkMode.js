@@ -1,11 +1,10 @@
 // DOMs
 const $toggleBtn = document.querySelector('.toggle-button');
-console.log($toggleBtn);
 
 // Local storages
 let isDark = !!localStorage.getItem('isDark') || false;
 
-// Event Listeners
+// Event handlers
 const toggleDark = () => {
   if (isDark) {
     localStorage.setItem('isDark', '');
@@ -18,4 +17,5 @@ const toggleDark = () => {
   }
 };
 
+// Event Listeners
 $toggleBtn.addEventListener('click', toggleDark);
