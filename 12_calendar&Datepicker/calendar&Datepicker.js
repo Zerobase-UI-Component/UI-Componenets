@@ -36,13 +36,13 @@ const getDateInfo = Date => {
   year = Date.getFullYear();
   month = Date.getMonth(); // 1 더하지 않은 값
   date = Date.getDate();
-  day = Date.getDay();
+  firstDay = getFirstDayofCurrMonth(year, month);
   lastDate = getLastDateOfMonth(year, month);
   return {
     year,
     month,
     date,
-    day,
+    firstDay,
     lastDate,
   };
 };
@@ -58,52 +58,49 @@ const $navYear = document.querySelector('.nav-month > h5');
 
 const datePicked = $date => {
   $date.classList.add('date-picked');
-  $date.style.color = '#fff';
 };
 const dateUnpicked = $date => {
   $date.classList.remove('date-picked');
-  $date.style.color = 'black';
-  console.log('unpicked');
+//   $date.classList.add('cur-month');
 };
 
 // render
 
-const render = ({ year, month, date, day, lastDate }) => {
-  const SUN = 7 - day;
-  const currMonth = [...$dateGrids].slice(day, day + lastDate);
+const render = ({ year, month, date, firstDay, lastDate }) => {
+  const SUN = 7 - firstDay === 7 ? 0 : 7 - firstDay;
+  const currMonth = [...$dateGrids].slice(firstDay, firstDay + lastDate);
   currMonth.forEach(($date, i) => {
     $date.textContent = i + 1;
-    $date.style.color = 'black';
-    $date.classList.remove('prevMonth', 'nextMonth');
+    $date.classList.add('cur-month');
+    $date.classList.remove('prev-month', 'next-month');
     if (i === date - 1) {
-      datePicked($date);
+        datePicked($date);
     } else {
-      dateUnpicked($date);
+        if (i % 7 === SUN) $date.classList.add("sunday")
+        else $date.classList.remove("sunday")
+        dateUnpicked($date);
     }
-    if (i % 7 === SUN) $date.style.color = 'red';
   });
 
   $navYear.textContent = year;
   $navMonth.textContent = monthToString(month);
-  const prevMonth = [...$dateGrids].slice(0, day);
+  const prevMonth = [...$dateGrids].slice(0, firstDay);
   const lastDateOfPrevMonth = getLastDateOfMonth(year, month - 1);
   const prevMonthLen = prevMonth.length;
   prevMonth.forEach(($date, i) => {
     $date.textContent = lastDateOfPrevMonth - (prevMonthLen - 1 - i);
-    $date.classList.add('prevMonth');
     dateUnpicked($date);
-    $date.style.color = '';
+    $date.classList.add('prev-month');
+    $date.classList.remove("sunday")
   });
 
-  const nextMonth = [...$dateGrids].slice(day + lastDate);
+  const nextMonth = [...$dateGrids].slice(firstDay + lastDate);
   nextMonth.forEach(($date, i) => {
     $date.textContent = i + 1;
-    $date.classList.add('nextMonth');
-
+    $date.classList.add('next-month');
+    $date.classList.remove("sunday")
     dateUnpicked($date);
-    $date.style.color = '';
   });
-  console.log(prevMonth);
 };
 
 // Constants
@@ -137,11 +134,15 @@ document.querySelector('.next-btn').addEventListener('click', () => {
   render(getDateInfo(nextMonthDate));
 });
 
+const formatDate = (() => {
+  const format = n => (n < 10 ? '0' + n : n + '');
+  return date => `${date.getFullYear()}-${format(date.getMonth() + 1)}-${format(date.getDate())}`;
+})();
+
 // date hover 이벤트
 
 document.querySelector('.calendar-grid').addEventListener('click', ({ target }) => {
   if (!target.matches('.date')) return;
-  console.log('date-clicked');
   // 클릭 시 꺼짐
   // 내년으로 조정
   month = target.classList.contains('prevMonth')
@@ -150,9 +151,11 @@ document.querySelector('.calendar-grid').addEventListener('click', ({ target }) 
     ? month + 1
     : month;
   date = +target.textContent;
+  // Picked 된 날짜 가져오기
   const pickedDate = new Date(year, month, date);
-  getDateInfo(pickedDate);
+  const dateInfo = getDateInfo(pickedDate)
+  $calendar.classList.add('display-none')
   // 다른 달 선택 시 날짜 input class='date-picker' 에 value로 표시
-  $datePicker.value = `${year}-${month}-${date}`;
-  console.log($datePicker.value);
+  $datePicker.value = formatDate(pickedDate)
+  render(dateInfo)
 });

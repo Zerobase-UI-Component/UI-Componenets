@@ -75,24 +75,36 @@
       .display-none {
         display: none;
       }
-
-      .date-picked {
-        border-radius: 70%;
-        background-color: #44c379;
+      .cur-month {
+        color: #000000;
+      }
+      .cur-month.sunday {
+        color: red;
+      }
+      .next-month,
+      .prev-month {
+        color: #d3d3d3;
       }
 
+      .date.date-picked {
+        border-radius: 70%;
+        background-color: #44c379;
+        color: #ffffff;
+      }
+      .date:hover {
+        border-radius: 70%;
+        background-color: #44c379;
+        color: white;
+      }
       /* 뷰를 구현하세요. */
     </style>
     <script defer src="./calendar&Datepicker.js"></script>
   </head>
   <body>
     <h1 class="title">Calendar</h1>
-    <input type="date" /> <br />
-
     <!-- 뷰를 구현하세요 -->
-
     <input type="text" class="date-picker" placeholder="Select date" readonly />
-    <div class="calendar">
+    <div class="calendar display-none">
       <div class="calender-nav">
         <button class="prev-btn"><</button>
         <div class="nav-month">
