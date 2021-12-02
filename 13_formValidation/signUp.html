@@ -7,14 +7,11 @@
     <title>Form validation</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;900&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;900&display=swap" rel="stylesheet" />
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <link href="css/style.css" rel="stylesheet" />
-    <link href="css/toaster.css" rel="stylesheet" />
-    <script type="module" defer src="js/auth.js"></script>
+    <link href="./css/signUp.css" rel="stylesheet" />
+    <link href="./css/toaster.css" rel="stylesheet" />
+    <script type="module" defer src="./js/auth.js"></script>
   </head>
   <body>
     <form class="form signin" novalidate>
@@ -67,13 +64,7 @@
         <div class="error"></div>
       </div>
       <div class="input-container">
-        <input
-          type="password"
-          id="signup-confirm-password"
-          name="confirm-password"
-          required
-          autocomplete="off"
-        />
+        <input type="password" id="signup-confirm-password" name="confirm-password" required autocomplete="off" />
         <label for="signup-confirm-password">Confirm Password</label>
         <span class="bar"></span>
         <i class="icon icon-success bx bxs-check-circle hidden"></i>

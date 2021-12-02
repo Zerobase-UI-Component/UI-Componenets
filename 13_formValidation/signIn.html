@@ -7,14 +7,12 @@
     <title>Form validation</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;900&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;900&display=swap" rel="stylesheet" />
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <link href="css/style.css" rel="stylesheet" />
-    <link href="css/toaster.css" rel="stylesheet" />
-    <script type="module" defer src="js/signin.js"></script>
+    <link href="./css/signIn.css" rel="stylesheet" />
+    <link href="./css/toaster.css" rel="stylesheet" />
+    <script type="module" defer src="./js/signin.js"></script>
+    <script type="module" defer src="./js/toaster.js"></script>
   </head>
   <body>
     <form class="form signin" novalidate>
@@ -35,7 +33,7 @@
         <i class="icon icon-error bx bxs-x-circle hidden"></i>
         <div class="error"></div>
       </div>
-      <button class="signin button" disabled>SIGN IN</button>
+      <button type="submit" class="signin button" disabled>SIGN IN</button>
     </form>
     <!-- local SVG sprite -->
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
