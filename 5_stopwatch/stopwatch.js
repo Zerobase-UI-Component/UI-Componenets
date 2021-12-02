@@ -2,6 +2,13 @@
 let laps = [];
 let timerId;
 
+const BUTTON_TYPE = {
+  START: 'Start',
+  RESET: 'Reset',
+  STOP: 'Stop',
+  LAP: 'Lap',
+};
+
 // Model Controllers
 const addLaps = time => laps.push({ id: laps.length + 1, time });
 
@@ -10,7 +17,6 @@ const resetLaps = () => {
 };
 
 // DOMs
-const $stopWatch = document.querySelector('.stopwatch');
 const $display = document.querySelector('.display');
 const $laps = document.querySelector('.laps');
 
@@ -41,7 +47,6 @@ const timer = (() => {
     };
     return {
       getTime() {
-        // return [fixDigitMinute(minute), fixDigitSecond(second), fixDigitMilliSecond(milliSecond)];
         return `${fixDigitMinute(minute)}:${fixDigitSecond(second)}:${fixDigitMilliSecond(milliSecond)}`;
       },
       resetTime() {
@@ -52,14 +57,8 @@ const timer = (() => {
   };
 })();
 
-const renderTimer = time => {
-  $display.textContent = time;
-};
-
-const captureLap = (() => {})();
-
 const renderLaps = laps => {
-  $laps.innerHTML = ""
+  $laps.innerHTML = '';
   const $fragment = document.createDocumentFragment();
   laps.forEach(({ id, time }) => {
     const $id = document.createElement('div');
@@ -73,16 +72,8 @@ const renderLaps = laps => {
   $laps.append($fragment);
 };
 
-// Event Handlers
-const toggleStart = $startBtn => {
-  if ($startBtn.textContent === 'Start') $startBtn.textContent = 'Stop';
-  else $startBtn.textContent = 'Start';
-};
-
-const toggleLap = $resetBtn => {
-  if ($resetBtn.textContent === 'Reset') $resetBtn.textContent = 'Lap';
-  else $resetBtn.textContent = 'Reset';
-};
+const toggleType = ($btn, BUTTON_TYPE_ORIGIN, BUTTON_TYPE_TARGET) =>
+  ($btn.textContent = $btn.textContent === BUTTON_TYPE_ORIGIN ? BUTTON_TYPE_TARGET : BUTTON_TYPE_ORIGIN);
 
 const enableReset = $resetBtn => {
   $resetBtn.removeAttribute('disabled');
@@ -93,35 +84,34 @@ const disableReset = $resetBtn => {
 };
 
 // Event Handlers 등록
-$stopWatch.addEventListener('click', e => {
-  const text = e.target.textContent;
-  if (text === 'Start') {
-    toggleStart(e.target);
-    toggleLap(e.target.nextElementSibling);
-    enableReset(e.target.nextElementSibling);
-    timerId = setInterval(() => {
-      renderTimer(timer().getTime());
-    }, 10);
-  }
-  if (text === 'Stop') {
-    toggleStart(e.target);
-    toggleLap(e.target.nextElementSibling);
-    clearInterval(timerId);
-  }
-  if (text === 'Reset') {
-    // 스탑워치 초기화
-    // $display.textContent = '00:00:00';
-    // Reset 버튼 비활성
-    disableReset(e.target);
-    $display.textContent = timer().resetTime();
-    resetLaps();
-    renderLaps(laps)
-
-    // laps record 삭제
-  } else if (text === 'Lap') {
-    // laps 렌더링
-    // renderLaps();
-    addLaps(timer().getTime());
-    renderLaps(laps);
+document.querySelector('.stopwatch').addEventListener('click', ({ target }) => {
+  const type = target.textContent;
+  const $resetBtn = target.nextElementSibling;
+  switch (type) {
+    case BUTTON_TYPE.START:
+      toggleType(target, BUTTON_TYPE.START, BUTTON_TYPE.STOP);
+      toggleType($resetBtn, BUTTON_TYPE.RESET, BUTTON_TYPE.LAP);
+      enableReset($resetBtn);
+      timerId = setInterval(() => {
+        $display.textContent = timer().getTime();
+      }, 10);
+      break;
+    case BUTTON_TYPE.STOP:
+      toggleType($resetBtn, BUTTON_TYPE.RESET, BUTTON_TYPE.LAP);
+      toggleType(target, BUTTON_TYPE.START, BUTTON_TYPE.STOP);
+      clearInterval(timerId);
+      break;
+    case BUTTON_TYPE.RESET:
+      disableReset(target);
+      $display.textContent = timer().resetTime();
+      resetLaps();
+      renderLaps(laps);
+      break;
+    case BUTTON_TYPE.LAP:
+      addLaps(timer().getTime());
+      renderLaps(laps);
+      break;
+    default:
+      console.log('Error');
   }
 });
