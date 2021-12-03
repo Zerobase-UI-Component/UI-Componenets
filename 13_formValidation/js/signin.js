@@ -1,6 +1,6 @@
 import { isValid, setInputs, toggleIcon, ERROR_CONTENTS } from './utils.js';
 
-const inputs = [];
+let inputs = [];
 
 const $signinForm = document.querySelector('.form.signin');
 const $iconSuccess = document.querySelectorAll('.icon-success');
@@ -15,6 +15,8 @@ $signinForm.addEventListener('input', () => {
   const [idSuccess, pwSuccess] = $iconSuccess;
   const [idError, pwError] = $iconError;
   const [$idMsg, $pwMsg] = $errorMsg;
+
+  inputs = [];
 
   setInputs(inputs, email, isValid('email', email), idSuccess, idError, $idMsg, ERROR_CONTENTS.EMAIL);
   setInputs(inputs, password, isValid('password', password), pwSuccess, pwError, $pwMsg, ERROR_CONTENTS.PASSWORD);
@@ -35,10 +37,14 @@ $signinForm.addEventListener('input', () => {
     toggleIcon(error);
     $errorMsg.textContent = '';
   });
-
-  inputs.every(({ isValid }) => isValid)
-    ? $signinBtn.toggleAttribute('disabled', false)
-    : $signinBtn.toggleAttribute('disabled', true);
+  console.log('inputs', inputs);
+  if (inputs.every(({ isValid }) => isValid)) {
+    $signinBtn.toggleAttribute('disabled', false);
+    console.log('is Valid');
+  } else {
+    $signinBtn.toggleAttribute('disabled', true);
+    console.log('invalid');
+  }
 });
 
 document.addEventListener('click', ({ target }) => {

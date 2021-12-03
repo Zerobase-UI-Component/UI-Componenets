@@ -1,6 +1,6 @@
 import { isValid, setInputs, toggleIcon, ERROR_CONTENTS } from './utils.js';
 
-const inputs = [];
+let inputs = [];
 
 // DOMs
 const $signupForm = document.querySelector('.form.signup');
@@ -18,6 +18,8 @@ $signupForm.addEventListener('input', () => {
   const [, , idSuccess, nameSuccess, pwSuccess, confirmSuccess] = $iconSuccess;
   const [, , idError, nameError, pwError, confirmError] = $iconError;
   const [, , $idMsg, $nameMsg, $pwMsg, $confirmMsg] = $errorMsg;
+
+  inputs = [];
 
   setInputs(inputs, email, isValid('email', email), idSuccess, idError, $idMsg, ERROR_CONTENTS.EMAIL);
   setInputs(inputs, username, isValid('username', username), nameSuccess, nameError, $nameMsg, ERROR_CONTENTS.USERNAME);
