@@ -49,7 +49,7 @@ const carousel = ($container, images) => {
     move(currentSlide);
   });
 
-  window.addEventListener('load', render);
+  window.addEventListener('DOMContentLoaded', render);
 };
 
 carousel(document.querySelector('.carousel'), [

@@ -1,3 +1,6 @@
+import { inputs as signinInfo } from './signin.js';
+import { inputs as signupInfo } from './signup.js';
+
 const ERROR_CONTENTS = {
   EMAIL: '이메일 형식에 맞게 입력해주세요.',
   USERNAME: '이름을 입력해주세요.',
@@ -29,5 +32,30 @@ const toggleIcon = (removeIcon, addIcon) => {
   removeIcon && removeIcon.classList.add('hidden');
   addIcon && addIcon.classList.remove('hidden');
 };
+
+document.addEventListener(
+  'click',
+  ({ target }) => {
+    if (!target.parentNode.matches('.link')) return;
+    [...document.querySelectorAll('form')].forEach($form => $form.reset());
+
+    const inputs = signinInfo.length ? signinInfo : signupInfo;
+
+    inputs.forEach(({ value, success, error, $errorMsg }) => {
+      value = '';
+      toggleIcon(success);
+      toggleIcon(error);
+      $errorMsg.textContent = '';
+    });
+
+    signinInfo.length
+      ? document.querySelector('.signin.button').toggleAttribute('disabled', true)
+      : document.querySelector('.signup.button').toggleAttribute('disabled', true);
+
+    document.querySelector('.form.signin').classList.toggle('hidden');
+    document.querySelector('.form.signup').classList.toggle('hidden');
+  },
+  true
+);
 
 export { isValid, setInputs, toggleIcon, ERROR_CONTENTS };

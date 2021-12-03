@@ -23,13 +23,27 @@
         font-weight: 300;
         text-align: center;
       }
+      .date-picker {
+        height: 35px;
+        border-radius: 5px;
+        border: solid 3px #d3d3d3;
+      }
+      .date-picker:focus {
+        outline: none;
+        border-radius: 5px;
+        border: solid 3px #2261c0;
+      }
+
       .calendar {
         --calendar-size: 300;
         width: calc(var(--calendar-size) * 0.9px);
         height: calc(var(--calendar-size) * 1.1px);
         font-size: calc(var(--calendar-size) * 0.05px);
+        margin-top: 5px;
+
         border-radius: 10px;
-        box-shadow: 5px 5px 5px #808080, -5px 5px 5px #808080, -5px -5px 5px #808080, 5px -5px 5px #808080;
+        box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2), 0 13px 19px 2px rgba(0, 0, 0, 0.14),
+          0 5px 24px 4px rgba(0, 0, 0, 0.12);
       }
       .nav-month > h4,
       .nav-month > h5 {
@@ -39,6 +53,8 @@
         display: flex;
         height: calc(var(--calendar-size) * 0.2px);
         vertical-align: center;
+        border-radius: 10px 10px 0 0;
+
         background-color: #44c379;
         color: #ffffff;
       }

@@ -56,18 +56,9 @@ $signupForm.addEventListener('input', () => {
     : $signupBtn.toggleAttribute('disabled', true);
 });
 
-const $forms = document.querySelectorAll('form');
-
 document.addEventListener('click', ({ target }) => {
   if (!target.parentNode.matches('.link')) return;
-  [...$forms].forEach($form => $form.reset());
-  inputs.forEach(({ value, success, error, $errorMsg }) => {
-    value = '';
-    toggleIcon(success);
-    toggleIcon(error);
-    $errorMsg.textContent = '';
-  });
   inputs = [];
-
-  $signupBtn.toggleAttribute('disabled', true);
 });
+
+export { inputs };

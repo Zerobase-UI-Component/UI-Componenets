@@ -37,30 +37,14 @@ $signinForm.addEventListener('input', () => {
     toggleIcon(error);
     $errorMsg.textContent = '';
   });
-  if (inputs.every(({ isValid }) => isValid)) {
-    $signinBtn.toggleAttribute('disabled', false);
-    console.log('is Valid');
-  } else {
-    $signinBtn.toggleAttribute('disabled', true);
-    console.log('invalid');
-  }
+  inputs.every(({ isValid }) => isValid)
+    ? $signinBtn.toggleAttribute('disabled', false)
+    : $signinBtn.toggleAttribute('disabled', true);
 });
-
-const $forms = document.querySelectorAll('form');
 
 document.addEventListener('click', ({ target }) => {
   if (!target.parentNode.matches('.link')) return;
-  [...$forms].forEach($form => $form.reset());
-  inputs.forEach(({ value, success, error, $errorMsg }) => {
-    value = '';
-    toggleIcon(success);
-    toggleIcon(error);
-    $errorMsg.textContent = '';
-  });
   inputs = [];
-
-  $signinBtn.toggleAttribute('disabled', true);
-
-  document.querySelector('.form.signin').classList.toggle('hidden');
-  document.querySelector('.form.signup').classList.toggle('hidden');
 });
+
+export { inputs };

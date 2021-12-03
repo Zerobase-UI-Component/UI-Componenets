@@ -1,10 +1,22 @@
 // functions
 const getLastDateOfMonth = (year, month) => new Date(year, month + 1, 0).getDate();
-const getFirstDayofCurrMonth = (year, month) => new Date(year, month, 1).getDay();
-const getLastDateOfPrevMonth = (year, month) => new Date(year, month, 0).getDate();
-const getFirstDateOfNextMonth = (year, month) => new Date(year, month + 1, 1).getDate();
-const monthToString = month => {
-  const monthStr = [
+const getFirstDayofMonth = (year, month) => new Date(year, month, 1).getDay();
+const getDateInfo = Date => {
+  year = Date.getFullYear();
+  month = Date.getMonth(); // 1 더하지 않은 값
+  date = Date.getDate();
+  firstDay = getFirstDayofMonth(year, month);
+  lastDate = getLastDateOfMonth(year, month);
+  return {
+    year,
+    month,
+    date,
+    firstDay,
+    lastDate,
+  };
+};
+const monthToString = month =>
+  [
     'January',
     'February',
     'March',
@@ -17,9 +29,7 @@ const monthToString = month => {
     'October',
     'November',
     'December',
-  ];
-  return monthStr[month];
-};
+  ][month];
 
 // Date
 const today = new Date();
@@ -29,27 +39,11 @@ let month = today.getMonth(); // 1 더하지 않은 값
 let date = today.getDate();
 let day = today.getDay();
 let lastDate = getLastDateOfMonth(year, month);
-const getDateInfo = Date => {
-  year = Date.getFullYear();
-  month = Date.getMonth(); // 1 더하지 않은 값
-  date = Date.getDate();
-  firstDay = getFirstDayofCurrMonth(year, month);
-  lastDate = getLastDateOfMonth(year, month);
-  return {
-    year,
-    month,
-    date,
-    firstDay,
-    lastDate,
-  };
-};
 
 // DOMs
 const $datePicker = document.querySelector('.date-picker');
 const $calendar = document.querySelector('.calendar');
 const $dateGrids = document.querySelectorAll('.date');
-const $navMonth = document.querySelector('.nav-month > h4');
-const $navYear = document.querySelector('.nav-month > h5');
 
 // functions
 const datePicked = $date => {
@@ -69,23 +63,22 @@ const render = ({ year, month, date, firstDay, lastDate }) => {
     $date.classList.remove('prev-month', 'next-month');
     if (i === date - 1) {
       datePicked($date);
-    } else {
-      if (i % 7 === SUN) $date.classList.add('sunday');
-      else $date.classList.remove('sunday');
-      dateUnpicked($date);
+      return;
     }
+    i % 7 === SUN ? $date.classList.add('sunday') : $date.classList.remove('sunday');
+    dateUnpicked($date);
   });
 
-  $navYear.textContent = year;
-  $navMonth.textContent = monthToString(month);
+  document.querySelector('.nav-month > h5').textContent = year;
+  document.querySelector('.nav-month > h4').textContent = monthToString(month);
   const prevMonth = [...$dateGrids].slice(0, firstDay);
   const lastDateOfPrevMonth = getLastDateOfMonth(year, month - 1);
   const prevMonthLen = prevMonth.length;
   prevMonth.forEach(($date, i) => {
     $date.textContent = lastDateOfPrevMonth - (prevMonthLen - 1 - i);
-    dateUnpicked($date);
     $date.classList.add('prev-month');
     $date.classList.remove('sunday');
+    dateUnpicked($date);
   });
 
   const nextMonth = [...$dateGrids].slice(firstDay + lastDate);
@@ -105,38 +98,27 @@ $datePicker.addEventListener('click', () => {
   $calendar.classList.remove('display-none');
 });
 
-document.querySelector('body').addEventListener('click', e => {
+document.querySelector('body').addEventListener('click', ({ target }) => {
   if (
-    e.target.matches('.move-month') ||
-    e.target.parentNode.matches('.nav-month') ||
-    e.target.matches('.days') ||
-    e.target.matches('.date-picker')
+    target.matches('.move-month') ||
+    target.parentNode.matches('.nav-month') ||
+    target.matches('.days') ||
+    target.matches('.date-picker')
   ) {
-    console.log(e.target);
     return;
   }
   $calendar.classList.add('display-none');
-  // if (e.target.matches('body')) $calendar.classList.add('display-none');
 });
 
 document.addEventListener('DOMContentLoaded', () => {
   render(getDateInfo(today));
 });
 
-document.querySelector('.prev-btn').addEventListener('click', () => {
-  month -= 1;
+document.querySelector('.calender-nav').addEventListener('click', ({ target }) => {
+  if (!target.matches('.move-month')) return;
+  month = target.matches('.prev-btn') ? month - 1 : target.matches('.next-btn') ? month + 1 : month;
   date = getLastDateOfMonth(year, month) < date ? getLastDateOfMonth(year, month) : date;
-  const lastMonthDate = new Date(year, month, date);
-
-  render(getDateInfo(lastMonthDate));
-});
-
-document.querySelector('.next-btn').addEventListener('click', () => {
-  month += 1;
-  date = getLastDateOfMonth(year, month) < date ? getLastDateOfMonth(year, month) : date;
-  const nextMonthDate = new Date(year, month, date);
-
-  render(getDateInfo(nextMonthDate));
+  render(getDateInfo(new Date(year, month, date)));
 });
 
 const formatDate = (() => {
@@ -156,9 +138,12 @@ document.querySelector('.calendar-grid').addEventListener('click', ({ target }) 
 
   const pickedDate = new Date(year, month, date);
   const dateInfo = getDateInfo(pickedDate);
+  const dateStr = formatDate(pickedDate);
 
   $calendar.classList.add('display-none');
-  $datePicker.value = formatDate(pickedDate);
+  $datePicker.value = dateStr;
+
+  console.log(dateStr);
 
   render(dateInfo);
 });
