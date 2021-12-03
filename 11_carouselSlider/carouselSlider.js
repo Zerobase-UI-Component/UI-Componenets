@@ -1,6 +1,6 @@
 let currentSlide = 0;
 const DURATION = 500;
-let isEnd = false;
+let isTranstiion = false;
 
 const carousel = ($container, images) => {
   const imgElem =
@@ -16,45 +16,30 @@ const carousel = ($container, images) => {
   const $containerSlides = document.querySelector('.carousel-slides');
   [...$containerSlides.children].forEach(img => (img.style.width = IMG_WIDTH));
 
-  // window 에 슬라이드 옮기기
   const render = () => {
     $container.style.width = IMG_WIDTH + padding + 'px';
     $container.style.opacity = 1;
 
     currentSlide = +window.getComputedStyle($containerSlides).getPropertyValue('--currentSlide');
-    $containerSlides.style.setProperty('--currentSlide', currentSlide > images.length + 1 ? 0 : currentSlide);
+
+    move(++currentSlide);
   };
 
   const move = (currentSlide, duration = 0) => {
+    if (duration) isTranstiion = true;
     $containerSlides.style.setProperty('--duration', duration);
     $containerSlides.style.setProperty('--currentSlide', currentSlide);
   };
-  const prev = () => {
-    if (currentSlide === 0) {
-      currentSlide = images.length;
-      move(currentSlide);
-    }
-    currentSlide -= 1;
-    move(currentSlide, DURATION);
-  };
-  const next = () => {
-    currentSlide += 1;
-    move(currentSlide, DURATION);
-  };
 
-  const $prevBtn = document.querySelector('.prev');
-  const $nextBtn = document.querySelector('.next');
-
-  $prevBtn.addEventListener('click', function prevClick() {
-    prev();
-    $prevBtn.removeEventListener('click', prevClick);
-  });
-  $nextBtn.addEventListener('click', function nextClick() {
-    next();
-    $nextBtn.removeEventListener('click', nextClick);
+  $container.addEventListener('click', ({ target }) => {
+    if (!target.classList.contains('carousel-control') || isTranstiion) return;
+    const change = target.classList.contains('prev') ? -1 : 1;
+    currentSlide += change;
+    move(currentSlide, DURATION);
   });
 
   document.querySelector('.carousel-slides').addEventListener('transitionend', () => {
+    isTranstiion = false;
     if (currentSlide <= 0) {
       currentSlide = images.length;
     }
@@ -62,18 +47,9 @@ const carousel = ($container, images) => {
       currentSlide = 1;
     }
     move(currentSlide);
-
-    $prevBtn.addEventListener('click', function prevClick() {
-      prev();
-      $prevBtn.removeEventListener('click', prevClick);
-    });
-    $nextBtn.addEventListener('click', function nextClick() {
-      next();
-      $nextBtn.removeEventListener('click', nextClick);
-    });
   });
 
-  render();
+  window.addEventListener('load', render);
 };
 
 carousel(document.querySelector('.carousel'), [
