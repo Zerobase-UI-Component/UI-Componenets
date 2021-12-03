@@ -1,4 +1,3 @@
-
 let $activeContainer = document.querySelector('.menu-container.active > .submenu');
 
 document.querySelector('.accordion').addEventListener('click', ({ target }) => {

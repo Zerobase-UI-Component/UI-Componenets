@@ -49,6 +49,7 @@ $signinForm.addEventListener('input', () => {
 
 document.addEventListener('click', ({ target }) => {
   if (!target.parentNode.matches('.link')) return;
+  // location.reload();
   document.querySelector('.form.signin').classList.toggle('hidden');
   document.querySelector('.form.signup').classList.toggle('hidden');
 });

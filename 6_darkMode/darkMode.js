@@ -4,7 +4,7 @@ const $toggleButtonSwitch = document.querySelector('.toggle-button-switch');
 const $toggleButtonText = document.querySelector('.toggle-button-text');
 
 // Local storages
-let isDark = !!localStorage.getItem('isDark') || false;
+let isDark = !!localStorage.getItem('isDark');
 
 // Event handlers
 const toggleDark = () => {
@@ -20,10 +20,22 @@ const toggleDark = () => {
 };
 
 const $body = document.querySelector('body');
+
 localStorage.getItem('isDark') ? $body.classList.add('dark') : $body.classList.remove('dark');
+
 // Event Listeners
 $toggleBtn.addEventListener('click', toggleDark);
 
+// prevent CSS transition on load
+
+// 방법 1
+// $body.style.visibility = 'hidden';
+
+// setTimeout(function render() {
+//   $body.style.visibility = 'visible';
+// }, 300);
+
+// 방법 2 (가장 빠름)
 window.addEventListener('DOMContentLoaded', () => {
   $toggleButtonSwitch.style.transition = 'none';
   $toggleButtonText.style.transition = 'none';
