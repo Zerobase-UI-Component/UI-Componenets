@@ -1,5 +1,7 @@
 // DOMs
 const $toggleBtn = document.querySelector('.toggle-button');
+const $toggleButtonSwitch = document.querySelector('.toggle-button-switch');
+const $toggleButtonText = document.querySelector('.toggle-button-text');
 
 // Local storages
 let isDark = !!localStorage.getItem('isDark') || false;
@@ -17,5 +19,17 @@ const toggleDark = () => {
   }
 };
 
+const $body = document.querySelector('body');
+localStorage.getItem('isDark') ? $body.classList.add('dark') : $body.classList.remove('dark');
 // Event Listeners
 $toggleBtn.addEventListener('click', toggleDark);
+
+window.addEventListener('DOMContentLoaded', () => {
+  $toggleButtonSwitch.style.transition = 'none';
+  $toggleButtonText.style.transition = 'none';
+});
+
+window.addEventListener('load', () => {
+  $toggleButtonSwitch.style.transition = 'left 0.3s';
+  $toggleButtonText.style.transition = 'background-color 0.3s';
+});

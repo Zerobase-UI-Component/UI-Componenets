@@ -1,7 +1,7 @@
-const $accordion = document.querySelector('.accordion');
+
 let $activeContainer = document.querySelector('.menu-container.active > .submenu');
 
-$accordion.addEventListener('click', ({ target }) => {
+document.querySelector('.accordion').addEventListener('click', ({ target }) => {
   if (!target.matches('.menu')) return;
 
   const $activeSubmenu = target.nextElementSibling;
