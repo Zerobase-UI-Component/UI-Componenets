@@ -8,13 +8,13 @@ const $iconError = document.querySelectorAll('.icon-error');
 const $signinBtn = document.querySelector('.signin.button');
 const $errorMsg = document.querySelectorAll('.error');
 
+const [idSuccess, pwSuccess] = $iconSuccess;
+const [idError, pwError] = $iconError;
+const [$idMsg, $pwMsg] = $errorMsg;
+
 $signinForm.addEventListener('input', () => {
   const email = $signinForm.userid.value;
   const password = $signinForm.password.value;
-
-  const [idSuccess, pwSuccess] = $iconSuccess;
-  const [idError, pwError] = $iconError;
-  const [$idMsg, $pwMsg] = $errorMsg;
 
   inputs = [];
 
@@ -37,7 +37,6 @@ $signinForm.addEventListener('input', () => {
     toggleIcon(error);
     $errorMsg.textContent = '';
   });
-  console.log('inputs', inputs);
   if (inputs.every(({ isValid }) => isValid)) {
     $signinBtn.toggleAttribute('disabled', false);
     console.log('is Valid');
@@ -47,9 +46,21 @@ $signinForm.addEventListener('input', () => {
   }
 });
 
+const $forms = document.querySelectorAll('form');
+
 document.addEventListener('click', ({ target }) => {
   if (!target.parentNode.matches('.link')) return;
-  // location.reload();
+  [...$forms].forEach($form => $form.reset());
+  inputs.forEach(({ value, success, error, $errorMsg }) => {
+    value = '';
+    toggleIcon(success);
+    toggleIcon(error);
+    $errorMsg.textContent = '';
+  });
+  inputs = [];
+
+  $signinBtn.toggleAttribute('disabled', true);
+
   document.querySelector('.form.signin').classList.toggle('hidden');
   document.querySelector('.form.signup').classList.toggle('hidden');
 });

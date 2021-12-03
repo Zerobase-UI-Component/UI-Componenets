@@ -25,9 +25,9 @@ const setInputs = (inputs, value, isValid, success, error, $errorMsg, errorConte
   inputs.push({ value, isValid, success, error, $errorMsg, errorContent });
 };
 
-const toggleIcon = (addIcon, removeIcon) => {
-  addIcon && addIcon.classList.add('hidden');
-  removeIcon && removeIcon.classList.remove('hidden');
+const toggleIcon = (removeIcon, addIcon) => {
+  removeIcon && removeIcon.classList.add('hidden');
+  addIcon && addIcon.classList.remove('hidden');
 };
 
 export { isValid, setInputs, toggleIcon, ERROR_CONTENTS };
